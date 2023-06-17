@@ -7,14 +7,6 @@ pipeline {
         sh 'docker build -t frankisinfotech/jenkinsdemo:""$GIT_COMMIT"" .'
       }
     }
-    
-     stage ('Publish to DockerHub') {
-      steps {
-        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-          sh 'docker push frankisinfotech/jenkinsdemo:""$GIT_COMMIT""'
-         }
-       }
-     }
     stage ('Publish to ECR') {
       steps {
         withEnv (["AWS_ACCESS_KEY_ID-$(env.AWS_ACCESS_KEY_ID)", "AWS_SECRET_ACCESS_KEY-${env.AWS_SECRET_ACCESS_KEY}", "AWS_DEFAULT_REGION-${env.AWS_DEFAULT_REGION}"]) {
